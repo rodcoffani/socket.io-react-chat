@@ -1,4 +1,8 @@
 import React, { useState } from 'react';
+import io from 'socket.io-client'
+
+const socket = io('htpp://localhost:3000');
+socket.on('connect', () => console.log('[IO] Connect => A new connection has been established'));
 
 const Chat = () => {
     const [message, setMessage] = useState();
