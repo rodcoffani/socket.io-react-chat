@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import io from 'socket.io-client'
 
-const socket = io('htpp://localhost:3000');
+const socket = io('http://localhost:8080');
 socket.on('connect', () => console.log('[IO] Connect => A new connection has been established'));
 
 const Chat = () => {
@@ -11,10 +11,10 @@ const Chat = () => {
     const handleFormSubmit = event => {
         event.preventDefault();
         if(message.trim()) {
-            setMessages([...messages, {
+            socket.emit('chat.message', {
                 id: 1,
                 message
-            }])
+            })
             setMessage('')
         }
     }
