@@ -8,6 +8,12 @@ const Chat = () => {
     const [message, setMessage] = useState();
     const [messages, setMessages] = useState([]);
 
+    useEffect(() => {
+        const handleNewMessage = newMessage => setMessages([...messages, newMessage])
+        socket.on('chat.message', handleNewMessage);
+        return () => socket.off('chat.message', handleNewMessage);
+    });
+
     const handleFormSubmit = event => {
         event.preventDefault();
         if(message.trim()) {
