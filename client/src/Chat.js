@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import io from 'socket.io-client'
+import io from 'socket.io-client';
+import uuid from 'uuid/v4';
 
+const myId = uuid();
 const socket = io('http://localhost:8080');
 socket.on('connect', () => console.log('[IO] Connect => A new connection has been established'));
 
@@ -12,13 +14,13 @@ const Chat = () => {
         const handleNewMessage = newMessage => setMessages([...messages, newMessage])
         socket.on('chat.message', handleNewMessage);
         return () => socket.off('chat.message', handleNewMessage);
-    });
+    }, [messages]);
 
     const handleFormSubmit = event => {
         event.preventDefault();
         if(message.trim()) {
             socket.emit('chat.message', {
-                id: 1,
+                id: myId,
                 message
             })
             setMessage('')
@@ -30,12 +32,12 @@ const Chat = () => {
     return (
         <main className='container'>
             <ul className= 'list'>
-                {messages.map( m => (
-                    <li className='list__item list__item--mine'>
-                        <span
-                            className='message message--mine'
-                            key={m.id}
-                        >
+                {messages.map((m, index)=> (
+                    <li 
+                        className={`list__item list__item--${m.id === myId ? 'mine' : 'other'}`}
+                        key={index}
+                    >
+                        <span className={`message message--${m.id === myId ? 'mine' : 'other'}`}>
                             {m.message}
                         </span>
                     </li>
