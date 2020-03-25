@@ -1,5 +1,7 @@
 # socket.io-react-chat
 Project based on [this video](https://www.youtube.com/watch?v=n0XTxlp68wc&t). A local and simple chat, using ReactJS on front-end and Node with Socket.io on the back-end.
+## Installing packages
+Run `npm i` or `yarn` in both directories, cient and server.
 
 ## Starting the server
 Enter the server directory (`cd server`) and run `yarn start`.
